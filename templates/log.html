@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Источники данных</h1>
+<h3>Подключённые сборщики</h3>
+<ul>
+  {% for c in collectors %}<li><b>{{ c.title }}</b> <span class="muted">({{ c.name }})</span></li>{% endfor %}
+  <li><b>Ремонты и ограничения ОАО «РЖД»</b> <span class="muted">(ручной ввод / CSV)</span></li>
+</ul>
+<h3>Журнал опроса</h3>
+<table>
+  <thead><tr><th>Время</th><th>Сборщик</th><th>Результат</th><th>Сообщение</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr><td>{{ r.ts.replace('T', ' ') }}</td><td>{{ r.collector }}</td>
+      <td>{% if r.ok %}<i class="dot norm"></i>успешно{% else %}<i class="dot danger"></i>ошибка{% endif %}</td>
+      <td class="muted">{{ r.message }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

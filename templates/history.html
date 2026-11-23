@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>История наблюдений</h1>
+<div class="toolbar">
+  <label>Объект:
+    <select id="object">
+      {% for o in objects %}<option value="{{ o.id }}">{{ o.name }}</option>{% endfor %}
+    </select>
+  </label>
+</div>
+<h3>Температура (°C) и ветер (м/с)</h3>
+<svg id="chart" viewBox="0 0 900 260" preserveAspectRatio="none"></svg>
+<p class="legend"><i class="dot" style="background:#d63a2f"></i>температура <i class="dot" style="background:#2b6cb0"></i>ветер</p>
+<table>
+  <thead><tr><th>Время</th><th>t, °C</th><th>Ветер</th><th>Порывы</th><th>Осадки</th><th>Поездов</th><th>Состояние</th><th>Причины</th><th>Источники</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<script src="{{ url_for('static', filename='history.js') }}"></script>
+{% endblock %}

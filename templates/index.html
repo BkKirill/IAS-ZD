@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block head %}
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU{% if maps_key %}&apikey={{ maps_key }}{% endif %}"></script>
+{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <button id="btn-collect">Обновить данные сейчас</button>
+  <span class="legend"><i class="dot norm"></i>норма <i class="dot repair"></i>ремонт / ограничение скорости <i class="dot closed"></i>движение закрыто <i class="dot weather"></i>неблагоприятная погода <i class="dot none"></i>нет данных</span>
+  <span id="status-text" class="muted"></span>
+</div>
+{% if not maps_key %}
+<p class="warn">Не задан ключ YANDEX_MAPS_KEY — Яндекс Карты не загрузят подложку. Получите бесплатный ключ
+  «JavaScript API и HTTP Геокодер» на developer.tech.yandex.ru и укажите его в файле .env.</p>
+{% endif %}
+<div class="layout">
+  <div id="map"></div>
+  <div class="side">
+    <table id="objects">
+      <thead><tr><th>Объект</th><th>t, °C</th><th>Ветер</th><th>Поездов</th><th>Состояние</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='map.js') }}"></script>
+{% endblock %}

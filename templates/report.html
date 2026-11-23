@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Отчёт о состоянии объектов</h1>
+<form class="toolbar noprint">
+  <label>С <input type="date" name="from" value="{{ date_from }}"></label>
+  <label>По <input type="date" name="to" value="{{ date_to }}"></label>
+  <button>Сформировать</button>
+  <a class="btn" href="{{ url_for('report_csv', **{'from': date_from, 'to': date_to}) }}">Скачать CSV (Excel)</a>
+  <button type="button" onclick="window.print()">Печать / PDF</button>
+</form>
+<p>Период: <b>{{ date_from }} — {{ date_to }}</b>. В колонках «Неблагоприятная погода», «Ремонт», «Закрыто» —
+  число наблюдений с таким состоянием.</p>
+<table>
+  <thead><tr><th>Объект</th><th>Тип</th><th>Наблюдений</th><th>Мин. t, °C</th><th>Макс. t, °C</th>
+    <th>Макс. ветер, м/с</th><th>Неблагоприятная погода</th><th>Ремонт</th><th>Закрыто</th><th>Записей о ремонтах</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr class="{% if r.closed %}row-closed{% elif r.repair %}row-repair{% elif r.weather %}row-weather{% endif %}">
+      <td>{{ r.name }}</td><td>{{ r.type }}</td><td>{{ r.n }}</td>
+      <td>{{ r.tmin if r.tmin is not none else '—' }}</td><td>{{ r.tmax if r.tmax is not none else '—' }}</td>
+      <td>{{ r.wmax if r.n else '—' }}</td><td>{{ r.weather or 0 }}</td><td>{{ r.repair or 0 }}</td><td>{{ r.closed or 0 }}</td><td>{{ r.restr }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

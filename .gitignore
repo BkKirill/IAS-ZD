@@ -1,0 +1,5 @@
+.env
+railmon.db
+__pycache__/
+Dashboard/
+docs/Материалы_для_отчёта.*
